@@ -1,4 +1,37 @@
 {
   "name": "md-links",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "## Preámbulo",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --coverage",
+    "eslint": "eslint --ext .js src/ test/",
+    "pretest": "npm run eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natiacostap/SCL009-md-links.git"
+  },
+  "keywords": [
+    "markdown",
+    "node",
+    "javascript",
+    "library"
+  ],
+  "author": "Natalia Acosta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/natiacostap/SCL009-md-links/issues"
+  },
+  "homepage": "https://github.com/natiacostap/SCL009-md-links#readme",
+  "devDependencies": {
+    "jest": "^24.8.0"
+  },
+  "dependencies": {
+    "eslint-plugin-jest": "^22.6.4",
+    "filehound": "^1.17.0"
+  }
 }
