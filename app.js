@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const FileHound = require('filehound');
+const marked = require('marked');
 
 let route = process.argv[2];
 route = path.resolve(route);
@@ -8,32 +9,68 @@ console.log("Resolve:", route);
 route = path.normalize(route);
 console.log("Normalize:", route);
 
+const isDirectory = async path => {
+  try {
+    return (await require('util').promisify(require('fs').lstat)(path)).isDirectory()
+  } catch (e) {
+    return false // or custom the error
+  }
+}
 
-  const getFilesFromFilehound = (path) => {
+const  CheckIfIsADirectory = (path)=>{
+  isDirectory(path)
+  .then(res => {
+       let isADir = res;
+       
+       if(isADir===true){
+         console.log(isADir);
+           getFilesFromFilehound(path); 
+       }else{
+         console.log(isADir);
+           links(path);
+       }   
+  })
+  .catch(err=>{
+       console.log(err);
+  })
+}
+CheckIfIsADirectory(route);
+
+
+const getFilesFromFilehound = (path) => {
+
   const files = FileHound.create()
-  .paths(route)
-  .ext('md')
-  .find();
+   .paths(route)
+   .ext('md')
+   .find();
 
+let filesFilehound = [];
+  
   files
-  // .then(console.log)
-  .then(res => { console.log('response:', res);
-  res.forEach(element => {
-    getLinksFromFile();
-  })}
-  )};
+  .then(res => { 
+  filesFilehound = res ;
+  //console.log(res);
+  filesFilehound.forEach(element => {
+    console.log(element)
+    links(element);
+      });
+    });
+  };
+  // getFilesFromFilehound(route)
 
 
-  const getLinksFromFile  = (path) => {
-  fs.readFile(route ,'utf-8',(error, data) => {
-  if(error)
-  console.log(`Error ${error}`);
 
-  let getLinks = [];
+  const links = (path) => {
+    fs.readFile(path,'utf-8',(error, data) => {
+  if(error) throw error;
+
+  let links = [];
    
   const renderer = new marked.Renderer();
+  console.log('no paso aqui tampoco')
+
   renderer.link = function(href, title, text){
-    getLinks.push({
+    links.push({
       // link que encuentra
       href:href,
       //texto que aparece dentro
@@ -41,9 +78,9 @@ console.log("Normalize:", route);
       //ruta archivo
       file:path
     });
-  console.log(getLinks);
   }
   marked(data, {renderer:renderer})
-    console.log(getLinks)
+  console.log(links);
 })
-}
+};
+// links(route);
