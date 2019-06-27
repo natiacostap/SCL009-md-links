@@ -9,6 +9,9 @@ console.log("Resolve:", route);
 route = path.normalize(route);
 console.log("Normalize:", route);
 
+let ext = path.extname(route)
+console.log(ext);
+
 const isDirectory = async path => {
   try {
     return (await require('util').promisify(require('fs').lstat)(path)).isDirectory()
@@ -23,12 +26,15 @@ const  CheckIfIsADirectory = (path)=>{
        let isADir = res;
        
        if(isADir===true){
-         console.log(isADir);
+         //console.log(isADir);
            getFilesFromFilehound(path); 
        }else{
-         console.log(isADir);
+        console.log(isADir);
+          if(isADir === false && ext.includes('md')){
            links(path);
-       }   
+          }else {
+            console.log('no es un archivo markdown')
+      }}
   })
   .catch(err=>{
        console.log(err);
@@ -67,7 +73,6 @@ let filesFilehound = [];
   let links = [];
    
   const renderer = new marked.Renderer();
-  console.log('no paso aqui tampoco')
 
   renderer.link = function(href, title, text){
     links.push({
