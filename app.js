@@ -4,7 +4,7 @@ const path = require('path');
 const FileHound = require('filehound');
 const marked = require('marked');
 const fetch = require('node-fetch');
-// const linkCheck = require('link-check');
+const linkCheck = require('link-check');
 
 // lee lo que se ingresa en consola
 let route = process.argv[2]; 
@@ -125,21 +125,29 @@ const getLinksFromFile = (path) => {
 
 // //Fx para chekear si links son validos o no con libreria linkCheck
 // const checkLinks = (links) => {
-
-//   let linksToCheck = [];
+//   //array vacio para meter la informacion de los links que mostraremos
+//   let linksDone = [];
+//   //recorrer los links para sacar casa href
 //   links.forEach(el => {
-//    linksToCheck = el.href
-
-//     linkCheck(linksToCheck, function (err, result) {
+//     //modulo que usaremos para sacar status y code
+//     linkCheck(el.href, function (err, result) {
 //       if (err) {
 //         console.error(err);
 //         return;
-//       } 
-//       console.log(` ${result.link} is ${result.status} code: ${result.statusCode}`);
-      
-//     });
-//   });
-
+//       }
+//       // informaicon que se mostrara en consola
+//       el.href = el.href;
+//       el.text = el.text;
+//       el.file = el.file;
+//       el.status = result.status;
+//       el.statusCode = result.statusCode;
+//       // push de informacion del elemento y resultado de funcion
+//       linksDone.push(el);
+//       //  console.log(` ${result.link} is ${result.status} code: ${result.statusCode}`)
+//       console.log(linksDone);
+     
+//     })}
+//     )};
 
 
 //Fx que chekea el status de los href que encontramos en los archivos
@@ -148,27 +156,33 @@ const getLinksFromFile = (path) => {
     let linksDone=[];
     //recorremos los links que obtuvimos de los archivos
     links.forEach(el=> {
-    //objeto vacio para rellenar con datos de los links
-    let  toCheck= {};
-    //modulo que usamos para obneter el status del href
+    //modulo que usamos para obtener el status del href
     fetch(el.href)
          .then(res=>{
            //informaicon que mostraremos en la consola sobre el archivo
-              toCheck.href = el.href;
-              toCheck.text = el.text;
-              toCheck.file = el.file;
-              toCheck.statusCode = res.status;
-              toCheck.statusText = res.statusText;
+              el.href = el.href;
+              el.text = el.text;
+              el.file = el.file;
+              el.statusCode = res.status;
+              el.statusText = res.statusText;
               // pusheamos toda la informacion del objeto en array vacio
-              linksDone.push(toCheck);
+              linksDone.push(el);
               console.log(linksDone);
        })
-
        .catch(err=>{
          console.log(err.message, err.code);
 
-       })
+       });
+      //  doStats(linksDone);
+   })};
 
-    //  }
-   })}
+// const doStats = (linksDone) => {
+    
+//   let linksStats = []
+//   linksDone.forEach(el => {
+//     console.log(el.statusCode)
+//     // let dothejob {}
+//   })
+//   }
+
 
