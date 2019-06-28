@@ -23,10 +23,14 @@ let extFile = path.extname(route)
 //   return new Promisse((resolve, reject) => {
 //     let extFile = path.extname(route) 
 //       if(extFile.includes('md')) {
-//         res()
+        
+//         resolve(true);
+//       } else{
+         
+//         reject(false);
 //       }
-//     })
- 
+//     });
+//   };
       
 //fx que nos dice si es un directorio o no con un boolean 
 const isDirectory = async path => {
@@ -47,12 +51,13 @@ const checkIfIsADirectory = (path) => {
         
         // si no es directorio revisa que tenga extencion MD para pasar a fx que lee archivos
       } else {
-        if (isADir === false && extFile.includes('md')) { //avisa que no es un archivo markdown 
+        if (isADir === false && extFile.includes('.md')) { //avisa que no es un archivo markdown 
           getLinksFromFile(path);
           // checkLinks(path);
           //avisa que no es un archivo markdown 
         } else {
-          console.log('No es un archivo markdown') //avisa //avisa que no es un archivo markdown  que no es un archivo markdown 
+          console.log('No es archivo Markdown')
+          //avisa que no es un archivo markdown 
         }
       }
     })
@@ -111,17 +116,6 @@ const getLinksFromFile = (path) => {
 };
 //getLinksFromFile(route);
 
-// function checkStatus(res) {
-//   if (res.ok) { // res.status >= 200 && res.status < 300
-//       return res;
-//   } else {
-//       throw MyCustomError(res.statusText);
-//   }
-// }
-
-// fetch('https://httpbin.org/status/400')
-//   .then(checkStatus)
-//   .then(res => console.log('will not get here...'))
 
 // //Fx para chekear si links son validos o no con libreria linkCheck
 // const checkLinks = (links) => {
@@ -136,13 +130,13 @@ const getLinksFromFile = (path) => {
 //         return;
 //       }
 //       // informaicon que se mostrara en consola
-//       el.href = el.href;
-//       el.text = el.text;
-//       el.file = el.file;
-//       el.status = result.status;
-//       el.statusCode = result.statusCode;
+//      el.href = el.href;
+//      el.text = el.text;
+//      el.file = el.file;
+//      el.status = result.status;
+//      el.statusCode = result.statusCode;
 //       // push de informacion del elemento y resultado de funcion
-//       linksDone.push(el);
+//        linksDone = el;
 //       //  console.log(` ${result.link} is ${result.status} code: ${result.statusCode}`)
 //       console.log(linksDone);
      
@@ -166,7 +160,7 @@ const getLinksFromFile = (path) => {
               el.statusCode = res.status;
               el.statusText = res.statusText;
               // pusheamos toda la informacion del objeto en array vacio
-              linksDone.push(el);
+              linksDone = el;
               console.log(linksDone);
        })
        .catch(err=>{
