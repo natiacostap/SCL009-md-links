@@ -1,11 +1,14 @@
 module.exports = () => {
   // ...
 
-  mdLinks = (path, option) =>{
-   
+  // mdLinks = (path, option) =>{
+  // // return new Promise (resolve, reject) {
+  // //   if(
 
+  
+  
 
-  }
+  
 
 
 
