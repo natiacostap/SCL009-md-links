@@ -82,12 +82,13 @@ const getFilesFromFilehound = (path) => {
     .ext('md')
     .find();
 
-  files
+  files})
+
      .then( res =>{
        resolve(res) 
       })
       reject('error');
-      });
+      };
     
     
      
@@ -99,7 +100,7 @@ const getFilesFromFilehound = (path) => {
 
     //   });
      //});
-};
+
 getFilesFromFilehound(route)
 .then(res =>{
   console.log()
@@ -234,4 +235,5 @@ getFilesFromFilehound(route)
 //   }
 
   
+// }
 })
