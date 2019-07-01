@@ -20,5 +20,5 @@ const mdLinks = (path, option) => {
 
 
 }
-mdLinks.mdLinks(route, option);
+mdLinks(route, option);
 //mdLinks(route, option);

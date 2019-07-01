@@ -36,7 +36,7 @@ let extFile = path.extname(route)
 //fx que revisa los archivos de un directorio entregandole una ruta
 const getFilesFromFilehound = (path) => {
     const files = FileHound.create()
-      .discard("node_modules")	
+      .discard('node_modules')
       .paths(route)
       .ext('md')
       .find();
@@ -136,19 +136,15 @@ const isDirectory = (path) => {
 
 const linkStats = (links) => {
     let counter =[];
-    let broken = [];
+    //let broken = [];
     counter= ('Links-totales:' + links.length)
-    console.log(chalk.yellow(counter))
-     broken = links.forEach(el=>{
-    //   el.filter(el.status != 200)
+    console.log(chalk.bold.yellow(counter))
+    // (links.forEach(el =>{
+    // fetch
    
-    // })
+   //})
 
-
-     
-
-
-     })}
+     }
     
 
 

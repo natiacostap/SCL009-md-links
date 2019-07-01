@@ -1,110 +1,110 @@
-// //modulos que se agregan para realizar funciones
-const fs = require('fs');
-const path = require('path');
-const FileHound = require('filehound');
-const marked = require('marked');
-const fetch = require('node-fetch');
-const linkCheck = require('link-check');
+// // //modulos que se agregan para realizar funciones
+// const fs = require('fs');
+// const path = require('path');
+// const FileHound = require('filehound');
+// const marked = require('marked');
+// const fetch = require('node-fetch');
+// const linkCheck = require('link-check');
 
 
- //array vacio para meter los archivos que se encuentran en el directorio
- let filesFilehound = [];
- let toReadFilehound = [];
+//  //array vacio para meter los archivos que se encuentran en el directorio
+//  let filesFilehound = [];
+//  let toReadFilehound = [];
 
 
-// lee lo que se ingresa en consola
-let route = process.argv[2]; 
-//convierte ruta relativa en absoluta
-route = path.resolve(route); 
-// console.log("Resolve:", route);
-//arregla errores que pueda tener la ruta
-route = path.normalize(route); 
-// console.log("Normalize:", route);
+// // lee lo que se ingresa en consola
+// let route = process.argv[2]; 
+// //convierte ruta relativa en absoluta
+// route = path.resolve(route); 
+// // console.log("Resolve:", route);
+// //arregla errores que pueda tener la ruta
+// route = path.normalize(route); 
+// // console.log("Normalize:", route);
 
-// lee la extencion que tiene el archivo
-let extFile = path.extname(route) 
-// console.log(extFile);
+// // lee la extencion que tiene el archivo
+// let extFile = path.extname(route) 
+// // console.log(extFile);
 
-// const isAFile = (path) =>{
-//   return new Promisse((resolve, reject) => {
-//     let extFile = path.extname(route) 
-//       if(extFile.includes('md')) {
+// // const isAFile = (path) =>{
+// //   return new Promisse((resolve, reject) => {
+// //     let extFile = path.extname(route) 
+// //       if(extFile.includes('md')) {
         
-//         resolve(true);
-//       } else{
+// //         resolve(true);
+// //       } else{
          
-//         reject(false);
-//       }
-//     });
-//   };
+// //         reject(false);
+// //       }
+// //     });
+// //   };
       
-// //fx que nos dice si es un directorio o no con un boolean 
-// const isDirectory = async path => {
-//   try {
-//     return (await require('util').promisify(require('fs').lstat)(path)).isDirectory()
-//   } catch (e) {
-//     return false // or custom the error
-//   }
-// }
-// // fx que checkea si es un directorio o no y asi usar fxs correspondientes
-// const checkIfIsADirectory = (path) => {
-//   isDirectory(path)
-//     .then(res => {
-//       let isADir = res;
-//       //si es directorio utiliza pasa a fx con Filehound
-//       if (isADir === true) {
-//         getFilesFromFilehound(path);
+// // //fx que nos dice si es un directorio o no con un boolean 
+// // const isDirectory = async path => {
+// //   try {
+// //     return (await require('util').promisify(require('fs').lstat)(path)).isDirectory()
+// //   } catch (e) {
+// //     return false // or custom the error
+// //   }
+// // }
+// // // fx que checkea si es un directorio o no y asi usar fxs correspondientes
+// // const checkIfIsADirectory = (path) => {
+// //   isDirectory(path)
+// //     .then(res => {
+// //       let isADir = res;
+// //       //si es directorio utiliza pasa a fx con Filehound
+// //       if (isADir === true) {
+// //         getFilesFromFilehound(path);
         
-//         // si no es directorio revisa que tenga extencion MD para pasar a fx que lee archivos
-//       } else {
-//         if (isADir === false && extFile.includes('.md')) { //avisa que no es un archivo markdown 
-//           getLinksFromFile(path);
-//           // checkLinks(path);
-//           //avisa que no es un archivo markdown 
-//         } else {
-//           console.log('No es archivo Markdown')
-//           //avisa que no es un archivo markdown 
-//         }
-//       }
-//     })
-//     .catch(err => {
-//       console.log(err);
-//     })
-// }
-// checkIfIsADirectory(route); //inicia la funcion 
+// //         // si no es directorio revisa que tenga extencion MD para pasar a fx que lee archivos
+// //       } else {
+// //         if (isADir === false && extFile.includes('.md')) { //avisa que no es un archivo markdown 
+// //           getLinksFromFile(path);
+// //           // checkLinks(path);
+// //           //avisa que no es un archivo markdown 
+// //         } else {
+// //           console.log('No es archivo Markdown')
+// //           //avisa que no es un archivo markdown 
+// //         }
+// //       }
+// //     })
+// //     .catch(err => {
+// //       console.log(err);
+// //     })
+// // }
+// // checkIfIsADirectory(route); //inicia la funcion 
 
-//fx que revisa los archivos de un directorio entregandole una ruta
-const getFilesFromFilehound = (path) => {
-  return new Promise ((resolve, reject) =>{
-  const files = FileHound.create()
-    .discard("node_modules")	
-    .paths(route)
-    .ext('md')
-    .find();
+// //fx que revisa los archivos de un directorio entregandole una ruta
+// const getFilesFromFilehound = (path) => {
+//   return new Promise ((resolve, reject) =>{
+//   const files = FileHound.create()
+//     .discard("node_modules")	
+//     .paths(route)
+//     .ext('md')
+//     .find();
 
-  files})
+//   files})
 
-     .then( res =>{
-       resolve(res) 
-      })
-      reject('error');
-      };
+//      .then( res =>{
+//        resolve(res) 
+//       })
+//       reject('error');
+//       };
     
     
      
-    //   filesFilehound = res;
-    //   console.log(filesFilehound)
-    //   // recorre los archivos que encontro y luego pasa funcion links
-    //   filesFilehound.forEach(element => {
-    //     // getLinksFromFile(element)
+//     //   filesFilehound = res;
+//     //   console.log(filesFilehound)
+//     //   // recorre los archivos que encontro y luego pasa funcion links
+//     //   filesFilehound.forEach(element => {
+//     //     // getLinksFromFile(element)
 
-    //   });
-     //});
+//     //   });
+//      //});
 
-getFilesFromFilehound(route)
-.then(res =>{
-  console.log()
-// })
+// getFilesFromFilehound(route)
+// .then(res =>{
+//   console.log()
+// // })
 
 
 
@@ -236,4 +236,6 @@ getFilesFromFilehound(route)
 
   
 // }
-})
+
+
+module.exports ='Hello world';

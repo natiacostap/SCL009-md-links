@@ -36,7 +36,7 @@ let extFile = path.extname(route)
 //fx que revisa los archivos de un directorio entregandole una ruta
 const getFilesFromFilehound = (path) => {
     const files = FileHound.create()
-      .discard("node_modules")	
+      .discard('nodes_modules')
       .paths(route)
       .ext('md')
       .find();

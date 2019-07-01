@@ -1,5 +1,5 @@
 {
-  "name": "md-links",
+  "name": "md-links-naap",
   "version": "0.1.0",
   "description": "## Preámbulo",
   "main": "index.js",
@@ -23,7 +23,7 @@
   ],
   "author": "Natalia Acosta",
   "bin": {
-    "mdLinks": "index.js"
+    "md-links": "index.js"
   },
   "homepage": "https://github.com/natiacostap/SCL009-md-links#readme",
   "devDependencies": {
@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "chalk": "^2.4.2",
+    "eslint": "^6.0.1",
     "eslint-plugin-jest": "^22.6.4",
     "fetch": "^1.1.0",
     "filehound": "^1.17.0",
