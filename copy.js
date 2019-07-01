@@ -52,7 +52,7 @@ const getLinksWithReadFile = (path) => {
           renderer: renderer
         })
         resolve(links);
-        validateLinks(links)
+        // validateLinks(links)
       })
     });
   }
@@ -77,9 +77,10 @@ const getFilesFromFilehound = (path) => {
       .find()
     
       .then(res => {
+          console.log(res)
         // recorre los archivos que encontro y luego pasa funcion links
         res.forEach(element => {
-         console.log(element)
+         //resolve(element)
         })
   })
          .catch(err=>{

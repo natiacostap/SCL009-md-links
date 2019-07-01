@@ -174,7 +174,3 @@ const linkStats = (links) => {
   
   }
   mdLinks(route, option);
-
-  module.exports = {
-    mdLinks
-  }
