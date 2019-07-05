@@ -9,22 +9,28 @@ const chalk = require('chalk');
 
 let linksDone = [];
 
-/* lee lo que se ingresa en consola*/
+// lee lo que se ingresa en consola
 let route = process.argv[2];
-/*convierte ruta relativa en absoluta*/
+//convierte ruta relativa en absoluta
 route = path.resolve(route);
-/*arregla errores que pueda tener la ruta*/
-route = path.normalize(route);
 
-let options = {
-  one: process.argv[3], 
+// console.log("Resolve:", route);
+//arregla errores que pueda tener la ruta
+route = path.normalize(route);
+// console.log("Normalize:", route);
+let option = process.argv[3]
+let bothOption = {
+  one:process.argv[3], 
   two: process.argv[4]
 }
 
-/* lee la extencion que tiene el archivo*/
-let extFile = path.extname(route)
 
-/*fx que revisa los archivos de un directorio entregandole una ruta*/
+
+// lee la extencion que tiene el archivo
+let extFile = path.extname(route)
+// console.log(extFile);
+
+//fx que revisa los archivos de un directorio entregandole una ruta
 const getFilesFromFilehound = (path) => {
   return new Promise ((resolve, reject) => { 
   const files = FileHound.create()
@@ -35,24 +41,30 @@ const getFilesFromFilehound = (path) => {
 
   files
     .then(res => {
-       resolve(res)
       //array vacio para meter los archivos que se encuentran en el directorio
-    //   let filesFilehound = [];
-    //   res.forEach(element => {
-    //     filesFilehound = element
-    //     console.log(filesFilehound)
-      //})
+      let filesFilehound = {};
+      // filesFilehound = res;
+      // recorre los archivos que encontro y luego pasa funcion links
+      res.forEach(element => {
+        filesFilehound =element
+      })
+        getLinksFromFile(filesFilehound)
+          .then(res=>{
+            console.log('coonsole de arriba',res)
+           resolve(res)
+          })
       
     });
   })
 };
+//getFilesFromFilehound(route)
 
-/*fx que lee los archivos y extrae los links que hay dentro*/
+//fx que lee los archivos y extrae los links que hay dentro
 const getLinksFromFile = (path) => {
   return new Promise ((resolve, reject) => { 
   fs.readFile(path, 'utf-8', (error, data) => {
     if (error) {
-    reject('Error en leer archivo', error);
+    reject(error);
     }
     const renderer = new marked.Renderer();
     // array vacio para meter info del archivo que leemos
@@ -85,10 +97,18 @@ const getLinksFromFile = (path) => {
   })
 })
 };
+//getLinksFromFile(route)
+// .then( res=>{
+//   console.log(res)
+// })
+// .catch(err => {
+//   console.log(err)
+// });
 
-/*Fx para validar los links que entreguen fxs de readfile*/
+
+//Fx para validar los links que entreguen fxs de readfile
 const checkLinks = (arr) => {
-  return Promise.all(arr.map(el => {
+  return Promise.all(  arr.map(el => {
   return new Promise((resolve, reject) => {
       fetch(el.href)
         .then(res => {
@@ -103,87 +123,89 @@ const checkLinks = (arr) => {
   }))
 };
 
+//Fx para chekear si es un directorio o un archivo. Retorna true o false
+const isDirectory = (path) => {
+  return new Promise((resolve, reject) => {
+    fs.lstat(path, (err, stats) => {
+      if (err) {
+        reject(err)
+        //console.log(err); //Handle error
+      }
+      resolve(stats.isDirectory() === true)
+    });
+  });
+};
+
+
 const linkStats = (arr) => {
   return new Promise((resolve, reject) => {
     let counter = [];
     counter = ('Links-totales:' + arr.length)
     resolve(chalk.bold.yellow(counter))
   })
-};
+}
+
 
 const mdLinks = (path, option) => {
   return new Promise((resolve, reject) => {
     fs.lstat(path, (err, stats) => {
       if (err) {
-        reject('No es puede leer archivo', err)
+        reject(err)
       }
-      if(stats.isFile() && extFile.includes('.md')) {
-         getLinksFromFile(path)
+      if(stats.isFile()) {
+      // .then(res => {
+        // if (res === false && extFile.includes('.md')) {
+         (getLinksFromFile(path))
          .then(res=>{
            resolve(res)
          })
-         .catch(err => {
-             console.log('No no es archivo markdown',err)
-         });
         }
-       if(stats.isDirectory()) {
+       if
+        (stats.isDirectory()) {
+        // (res === true)
         getFilesFromFilehound(path)
-        .then(res =>{
-           Promise.all(res.map(el=>{
-             return getLinksFromFile(el)
-           }))
-           .then(res=>{
-                let goIntoArray = [].concat.apply([],res);
-                resolve(goIntoArray)
-           });
-            });
+        .then(res=>{
+          resolve(res)
+        })
         }
-    });
-});
-};
+      })
+      // .catch(err => {
+      //   reject(err)
 
-mdLinks(route, options)
+      // })
+  })
+}
+mdLinks(route, option)
 .then(res=>{
-  if(options.one === '--validate' && options.two === ''){  
+  if(option === '--validate'){  
   checkLinks(res)
   .then(res=>{
     console.log('Res mdLinks validate:',res)
   })
-  .catch(err=>{
-      console.log('Error con checklinks', err)
-  })
   }
-  else if(options.one === '--stats' && options.two ===''){
+  if(option === '--stats'){
     linkStats(res)
     .then(res=>{
       console.log('Res mdLinks stats', res)
     })
-    .catch(err=>{
-        console.log('Error con linksStats', err)
+  }
+  console.log('Res mdLinks:', res)
 
-    })
-  } 
-  else if(options.one === '--stats' && options.two === '--validate' ||
-  options.one === '--validate' && options.two === '--stats'){
-    checkLinks(res)
-      .then(res=>{
-        console.log('Res checklinks y stats:',res)
-        linkStats(res)
-        .then(res=> {
-            console.log('Res checklinks y stats:',res)
-        })  
-      })
-  }
-  else {
-console.log('Res mdLinks:', res)
-  }
+//   if(bothOption.one === '---validate' && bothOption.two === '--stats' || bothOption.one=== '--stats' && bothOption.two ==='--validate') {
+//     checkLinks(res)
+//     .then(linkStats(res))
+//       .then(res=> {
+//         console.log('Res mdLinks validate y stats:', res)
+
+//     })
+//   }
+// hdshgdfgf(path)
+// .then(gafsgdfg(hagshdghs(path)))
  })
 .catch(err =>{
   console.log('Error mdLinks', err)
 })
 
-
 module.exports = {
-  mdLinks,
- 
+  mdLinks
 }
