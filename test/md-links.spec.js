@@ -4,7 +4,7 @@ const mdLinks = require('../md-links');
 describe("mdLinks", () => {
     test('Lee un archivo', () => {
       expect.assertions(1);
-      return mdLinks('test/links.md').then(data => {
+      return mdLinks.mdLinks('test/links.md').then(data => {
         expect(data).toEqual([{
           
             href: 'https://www.w3.org/Protocols/rfc2616/',

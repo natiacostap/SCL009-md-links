@@ -1,4 +1,4 @@
-// #!/usr/bin/env node
+#!/usr/bin/env node
 
 const fs = require('fs');
 const path = require('path');
@@ -7,7 +7,7 @@ const marked = require('marked');
 const fetch = require('node-fetch');
 const chalk = require('chalk');
 
-let linksDone = [];
+//let linksDone = [];
 
 /* lee lo que se ingresa en consola*/
 let route = process.argv[2];
@@ -16,10 +16,31 @@ route = path.resolve(route);
 /*arregla errores que pueda tener la ruta*/
 route = path.normalize(route);
 
+// validate and stats declaration
+let validate = false;
+let stats = false
+
+process.argv.forEach((option, index, array) => {
+    //console.log("index:", index, "value:", option);
+    if(index > 2 && index < 5) {
+      if(option == "--validate" || option == "--v") {
+        validate = true;
+      } else if(option == "--stats" || option == "--s") {
+        stats = true;
+      } else {
+        console.log("Opción no válida:", option);
+      }
+    }
+   });
+
+
 let options = {
-  one: process.argv[3], 
-  two: process.argv[4]
+  one: validate, 
+  two: stats
 }
+
+// console.log("OPTION 1:", options.one);
+// console.log("OPTION 2:", options.two);
 
 /* lee la extencion que tiene el archivo*/
 let extFile = path.extname(route)
@@ -144,7 +165,18 @@ const mdLinks = (path, option) => {
 
 mdLinks(route, options)
 .then(res=>{
-  if(options.one === '--validate' && options.two === ''){  
+ if(options.one == true && options.two == true||
+  options.two == true  && options.one === true){
+    checkLinks(res)
+    .then(res=>{
+      console.log('Res checklinks y stats:',res)
+    linkStats(res)
+    .then(res=> {
+    console.log('Res checklinks y stats:',res)
+          })  
+        })
+    }
+  else if(options.one == true){  
   checkLinks(res)
   .then(res=>{
     console.log('Res mdLinks validate:',res)
@@ -153,7 +185,7 @@ mdLinks(route, options)
       console.log('Error con checklinks', err)
   })
   }
-  else if(options.one === '--stats' && options.two ===''){
+  else if(options.two == true){
     linkStats(res)
     .then(res=>{
       console.log('Res mdLinks stats', res)
@@ -163,19 +195,9 @@ mdLinks(route, options)
 
     })
   } 
-  else if(options.one === '--stats' && options.two === '--validate' ||
-  options.one === '--validate' && options.two === '--stats'){
-    checkLinks(res)
-      .then(res=>{
-        console.log('Res checklinks y stats:',res)
-        linkStats(res)
-        .then(res=> {
-            console.log('Res checklinks y stats:',res)
-        })  
-      })
-  }
+
   else {
-console.log('Res mdLinks:', res)
+   console.log('Res mdLinks:', res)
   }
  })
 .catch(err =>{
