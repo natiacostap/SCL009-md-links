@@ -1,11 +1,8 @@
 const mdLinks = require('../md-links');
 
-
 describe("mdLinks", () => {
-    test('Lee un archivo', () => {
-      expect.assertions(1);
-      return mdLinks.mdLinks('test/links.md').then(data => {
-        expect(data).toEqual([{
+  it('deberia retornar leer archivo dentro directorio', async()=>{
+    await expect(mdLinks.mdLinks('./archivos-testear')).resolves.toEqual({
           
             href: 'https://www.w3.org/Protocols/rfc2616/',
             text: 'https://www.w3.org/Protocols/rfc2616/',
@@ -21,9 +18,9 @@ describe("mdLinks", () => {
             text: 'http://www.w3.org',
             file: '/home/laboratoriad008/Escritorio/cortos/links.md'
           
-        }])
+        })
   
-    })})
+    })
   it("deberia retornar que no encontro archivo", () => {
 
   })

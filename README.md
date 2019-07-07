@@ -1,20 +1,20 @@
 # md-links-naap
 
-## Instalación
-
-Intala tu *md-links-naap* con el siguiente comando
+## Install
 
 ` npm install --save md-links-naap`
 
-###Uso
+### Usage
 
-##### CLI (Command Line Interface - Interfaz de Línea de Comando)
+
+##### CLI (Command Line Interface)
 
 
 `md-links-naap(path, options)`
 
 
-##### Leer archivos Markdown(.md)
+
+##### Read Markdown(.md) file
 
 
 ```
@@ -27,7 +27,7 @@ text: this is an example
 file: .some/example.md`
 ```
 
-##### Opción: validate
+##### Option: validate
 
 ```
 const md-links-naap = requiere('md-links-naap')
@@ -41,22 +41,18 @@ status: 200
 statusText: OK
 ```
 
-##### Opción: stat
+##### Option: stat
 
 ```
 const md-links-naap = requiere('md-links-naap')
 
 $ md-links-app example.md --stats
 
-href: http://www.example.com
-text: this is an example
-file: .some/example.md
-
-links-total:1
+Links total:1, Links uniques: 1
 ```
 
 
-##### Opción: validate y stats
+##### Opition: validate y stats
 
 ```
 const md-links-naap = requiere('md-links-naap')
@@ -69,11 +65,5 @@ file: .some/example.md
 status: 200
 statusText: OK
 
-links-total:1
-```
-
-#### Test
-
-```
-npm test
+links total:1, Links uniques: 1
 ```
