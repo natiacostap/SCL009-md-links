@@ -57,12 +57,7 @@ const getFilesFromFilehound = (path) => {
   files
     .then(res => {
        resolve(res)
-      //array vacio para meter los archivos que se encuentran en el directorio
-    //   let filesFilehound = [];
-    //   res.forEach(element => {
-    //     filesFilehound = element
-    //     console.log(filesFilehound)
-      //})
+
       
     });
   })
@@ -90,18 +85,7 @@ const getLinksFromFile = (path) => {
     }
     marked(data, {
       renderer: renderer})
-    // if (option.one === '--validate' || option.two === '--validate') {
-    //   checkLinks(links)
-    //     .then(res => {
-    //      console.log(res)
-    //     })
-    // } 
-    // if (option.one === '--stats' || option.two === '--stats') {
-    //   linkStats(links)
-    //     .then(res => {
-    //       console.log(res)
-    //     })
-    // }else
+   
     resolve(links)
   })
 })
@@ -169,48 +153,11 @@ const mdLinks = (path, option) => {
 });
 };
 
-// mdLinks(route, options)
-// .then(res=>{
-//  if(options.one == true && options.two == true||
-//   options.two == true  && options.one === true){
-//     checkLinks(res)
-//     .then(res=>{
-//       console.log('Res checklinks y stats:',res)
-//     linkStats(res)
-//     .then(res=> {
-//     console.log('Res checklinks y stats:',res)
-//           })  
-//         })
-//     }
-//   else if(options.one == true){  
-//   checkLinks(res)
-//   .then(res=>{
-//     console.log('Res mdLinks validate:',res)
-//   })
-//   .catch(err=>{
-//       console.log('Error con checklinks', err)
-//   })
-//   }
-//   else if(options.two == true){
-//     linkStats(res)
-//     .then(res=>{
-//       console.log('Res mdLinks stats', res)
-//     })
-//     .catch(err=>{
-//         console.log('Error con linksStats', err)
 
-//     })
-//   } 
-
-//   else {
-//    console.log('Res mdLinks:', res)
-//   }
-//  })
-// .catch(err =>{
-//   console.log('Error mdLinks', err)
-// })
 
 
 module.exports.mdLinks = mdLinks;
 module.exports.checkLinks = checkLinks;
 module.exports.linkStats = linkStats;
+module.exports.getFilesFromFilehound = getFilesFromFilehound;
+module.exports.getLinksFromFile = getLinksFromFile;

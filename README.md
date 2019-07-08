@@ -10,7 +10,7 @@
 ##### CLI (Command Line Interface)
 
 
-`md-links-naap(path, options)`
+`md-links (path, options)`
 
 
 
@@ -20,7 +20,7 @@
 ```
 const md-links-naap = requiere('md-links-naap')
 
-$ md-links-app example.md
+$ md-links example.md
 
 href: http://www.example.com
 text: this is an example
@@ -32,7 +32,7 @@ file: .some/example.md`
 ```
 const md-links-naap = requiere('md-links-naap')
 
-$ md-links-app example.md --validate
+$ md-links example.md --validate
 
 href: http://www.example.com
 text: this is an example
@@ -46,7 +46,7 @@ statusText: OK
 ```
 const md-links-naap = requiere('md-links-naap')
 
-$ md-links-app example.md --stats
+$ md-links example.md --stats
 
 Links total:1, Links uniques: 1
 ```
@@ -57,7 +57,7 @@ Links total:1, Links uniques: 1
 ```
 const md-links-naap = requiere('md-links-naap')
 
-$ md-links-app example.md --validate
+$ md-links example.md --validate
 
 href: http://www.example.com
 text: this is an example
